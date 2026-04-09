@@ -7,7 +7,6 @@ Phoenix LiveView -sovellus, joka hakee domaineja SQLite-tietokannasta ja näytt�
 - **Domainhaku** — kirjoita hakukenttään ja tulokset suodattuvat reaaliajassa
 - **Sivutus** — tulokset näytetään 20 riviä kerrallaan, sivuja voi selata eteen/taakse
 - **Rivin laajentaminen** — klikkaa riviä nähdäksesi kaikki kentät (ID, notes, public comment, review status jne.)
-- **Virheiden käsittely** — tietokantayhteysvirheet näytetään käyttäjälle
 
 ## Käynnistys
 
@@ -19,6 +18,9 @@ mix phx.server
 Avaa selaimessa: [localhost:4000](http://localhost:4000)
 
 ## Tiedostorakenne
+
+### `priv`
+Sisältää db.sqlite3 tietokanta tiedostot valmiina
 
 ### `lib/harjoitustehtava/domain.ex`
 Tämä on Ecto-skeema eli se kertoo Elixirille miltä tietokannan taulu näyttää. Se vastaa `bl_listing` nimistä taulua tietokannassa. Siinä on määritelty kaikki kentät mitä taulussa on:
@@ -40,7 +42,7 @@ Tämä hoitaa itse tietokantahaun. Siinä on yksi funktio `list_domains(query, p
 - **`handle_event("search", ...)`** — kun käyttäjä kirjoittaa hakukenttään, tämä suoritetaan. Se hakee uudet tulokset ja palaa aina sivulle 1
 - **`handle_event("toggle-row", ...)`** — kun käyttäjä klikkaa riviä, tämä avaa tai sulkee sen rivin lisätiedot
 - **`handle_event("next-page"/"prev-page", ...)`** — sivutusnapit, next lisää sivunumeroa yhdellä ja prev vähentää (mutta ei mene alle 1:n)
-- **`render/1`** — tämä on se HTML-template (HEEx) joka näyttää hakukentän, tulostaulu ja sivutusnapit
+- **`render/1`** — tämä on se HTML-template joka näyttää hakukentän, tulokset ja sivutusnapit
 
 ### `lib/harjoitustehtava_web/router.ex`
 Reititystiedosto joka kertoo mihin osoitteeseen mikäkin sivu tulee. On vain yksi reitti: `live "/", SearchLive` eli kun menet localhost:4000 niin se näyttää SearchLive-sivun.
